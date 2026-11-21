@@ -6,6 +6,7 @@ Push the `Hawking-Vice-City` Git repository. The installer and packaging tools l
 
 | Artifact | Use |
 | --- | --- |
+| `GTA-Stephen-Hawking-Edition-Setup-x64.exe` | Graphical Windows x64 installer with the Direct3D 9 game runtime and bundled audio libraries. |
 | `GTA-Stephen-Hawking-Edition-Installer.dmg` | Native graphical installer. It downloads and verifies the player ZIP automatically. |
 | `GTA-Stephen-Hawking-Edition-macOS-arm64.zip` | Player ZIP with the native runtime and game-data patches. An optional Terminal installer is included for offline setup. |
 | `Hawking-Vice-City-Blender-Models.zip` | Editable scenes, available dependencies, and previews. |
@@ -27,6 +28,23 @@ tools/build_mac_installer.sh /path/to/GTA-Stephen-Hawking-Edition-macOS-arm64.zi
 ```
 
 The build uses the Swift compiler from Xcode Command Line Tools. With a Developer ID Application certificate, set `HAWKING_SIGNING_IDENTITY` before building. Submit the signed artifact for notarization and staple the ticket before distributing the notarized disk image. [Apple Developer notarization guide](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)
+
+## Build the Windows installer
+
+Use the modified reVC source tree and LLVM-MinGW to build the Direct3D 9 executable. The build uses the XInput library supplied by Windows 10 and 11. [Microsoft XInput versions](https://learn.microsoft.com/en-us/windows/win32/xinput/xinput-versions)
+
+```sh
+tools/build_windows_engine.sh /path/to/engine-src /path/to/llvm-mingw /path/to/build-windows
+python3 tools/build_windows_installer.py \
+  --engine /path/to/build-windows/src/reVC.exe \
+  --engine-source /path/to/engine-src \
+  --rickwheel /path/to/autorickshaw_mod/assets/rickwheel.dff \
+  --player-zip /path/to/GTA-Stephen-Hawking-Edition-macOS-arm64.zip \
+  --url 'https://github.com/GEEGEEGOOGOO/GTA-Vice-city-Stephen-Hawking-Edition/releases/download/v1.0.0/GTA-Stephen-Hawking-Edition-macOS-arm64.zip' \
+  --output /path/to/GTA-Stephen-Hawking-Edition-Setup-x64.exe
+```
+
+The packager uses Go to build a Windows GUI executable. It embeds the Windows runtime and verifies the original game against the existing player manifest. The shared player ZIP supplies the game patches and contains the Mac runtime for the separate Mac installer. Use `--test-base /path/to/compatible/GameData` to exercise file assembly on the build host. Test the setup and game on Windows before promoting the preview.
 
 ## Build a player payload
 
