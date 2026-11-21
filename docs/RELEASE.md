@@ -6,14 +6,27 @@ Push the `Hawking-Vice-City` Git repository. The installer and packaging tools l
 
 | Artifact | Use |
 | --- | --- |
-| `GTA-Stephen-Hawking-Edition-macOS-arm64.zip` | Player installer, native runtime and game-data patches. It requires the player's own matching base game. |
+| `GTA-Stephen-Hawking-Edition-Installer.dmg` | Native graphical installer. It downloads and verifies the player ZIP automatically. |
+| `GTA-Stephen-Hawking-Edition-macOS-arm64.zip` | Player ZIP with the native runtime and game-data patches. An optional Terminal installer is included for offline setup. |
 | `Hawking-Vice-City-Blender-Models.zip` | Editable scenes, available dependencies, and previews. |
 | `Hawking-Vice-City-Development.zip` | Engine snapshot, authoring scripts, and game asset exports for maintainers. |
 | `GTA Stephen Hawking Edition` directory | Local assembled game. The sibling `GameData` folder contains the base game data for local use. |
 
 Review the rights for each candidate before uploading it. The local collection includes third-party Tumbler and vehicle models, reference images and GTA-derived modifications. The package copies untouched game files from the player's installation and uses deltas for modified files. Review the modified assets and the bundled runtime's licensing terms as well. Preserve the accompanying notices, source and any required attributions when distributing. The BYD asset's source and reported license are recorded beside its model.
 
-Upload cleared ZIPs as GitHub Release assets. GitHub blocks files over 100 MiB in ordinary Git and limits each Release asset to less than 2 GiB. [GitHub large-file documentation](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github), [GitHub Releases documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
+Attach the disk image and cleared ZIPs as GitHub Release assets. GitHub blocks files over 100 MiB in ordinary Git and limits each Release asset to less than 2 GiB. [GitHub large-file documentation](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github), [GitHub Releases documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
+
+## Build the graphical installer
+
+Build the disk image from the player ZIP and its HTTPS GitHub Release download URL. The installer embeds the base-file manifest and pins the ZIP's SHA-256.
+
+```sh
+tools/build_mac_installer.sh /path/to/GTA-Stephen-Hawking-Edition-macOS-arm64.zip \
+  'https://github.com/GEEGEEGOOGOO/GTA-Vice-city-Stephen-Hawking-Edition/releases/download/v1.0.0/GTA-Stephen-Hawking-Edition-macOS-arm64.zip' \
+  /path/to/GTA-Stephen-Hawking-Edition-Installer.dmg
+```
+
+The build uses the Swift compiler from Xcode Command Line Tools. With a Developer ID Application certificate, set `HAWKING_SIGNING_IDENTITY` before building. Submit the signed artifact for notarization and staple the ticket before distributing the notarized disk image. [Apple Developer notarization guide](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)
 
 ## Build a player payload
 
