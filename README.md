@@ -2,20 +2,39 @@
 
 An Apple Silicon mod for classic Grand Theft Auto: Vice City. Drive Stephen Hawking's wheelchair, find the custom autorickshaw and bicycle, and spawn the Ambassador, Tumbler, and seven replacement vehicles.
 
-## Install and play on Mac
+## Download for macOS
 
-1. Get your own classic PC Vice City game files. The supported input is the tested classic build prepared as a macVC `GameData` folder. The installer checks the exact game files it needs. The Definitive Edition uses different assets. [macVC setup guide](https://github.com/gtamac/macVC#install)
-2. Use an Apple Silicon Mac with macOS 26 or later and Python 3.9 or later. Install Python if needed. [Python for macOS](https://www.python.org/downloads/macos/)
-3. Download `GTA-Stephen-Hawking-Edition-macOS-arm64.zip` from the project's GitHub Releases and extract it. Open **Install on macOS.command** with the bundled payload beside it. If the classic game is elsewhere, select its `GameData` folder or specify it in Terminal.
-4. Open **GTA Stephen Hawking Edition** inside the **GTA Stephen Hawking Edition** folder in your home folder's **Applications** directory and choose **New Game**. Keep the app and its **GameData** folder together. The app contains its native libraries. The installer assembles and verifies a separate copy using the player's game files.
+[Download GTA Stephen Hawking Edition v1.0.0 for Apple Silicon (633 MiB)](https://github.com/GEEGEEGOOGOO/GTA-Vice-city-Stephen-Hawking-Edition/releases/download/v1.0.0/GTA-Stephen-Hawking-Edition-macOS-arm64.zip)
 
-From the extracted player download, you can run this in Terminal.
+### Requirements
+
+- An Apple Silicon Mac (M1 or newer) running macOS 26 or later.
+- Python 3.9 or later. [Get Python for macOS](https://www.python.org/downloads/macos/)
+- Your own copy of the original PC release of Vice City with matching game files. Use the macVC guide to prepare a `Grand Theft Auto Vice City.app` containing the original game's `GameData` folder. The installer checks those files before assembling the mod. [macVC setup guide](https://github.com/gtamac/macVC#install)
+
+### Install and play
+
+1. **Extract the download.** Double-click the ZIP in Finder and open the extracted folder. Keep **Install on macOS.command** and the bundled `hawking-vice-city-macos-arm64.zip` together.
+2. **Run the installer.** Double-click **Install on macOS.command**. It automatically checks the macVC app in **Applications**. If it asks you to choose a folder, select the classic game's **GameData** folder, the one that contains `data` and `models`. Wait for Terminal to report **Installed**.
+3. **Open the modded game.** In Finder, press **Command–Shift–G**, enter `~/Applications/GTA Stephen Hawking Edition`, and open **GTA Stephen Hawking Edition.app**. Keep the app and its **GameData** folder together if you move the installation.
+4. **Start playing.** Choose **Start Game → New Game**.
+
+### Install from Terminal
+
+If Finder won't open the installer, open Terminal and run these commands. Adjust the first path if you extracted the ZIP somewhere else.
+
+```sh
+cd "$HOME/Downloads/GTA-Stephen-Hawking-Edition-macOS-arm64"
+zsh "./Install on macOS.command"
+```
+
+To select a different copy of the base game, pass its macVC app or `GameData` folder explicitly.
 
 ```sh
 zsh "./Install on macOS.command" --base "/path/to/GameData"
 ```
 
-Add `--check` to verify a copy without installing. The installer also accepts a macVC `.app` as the base. Use `--destination "$HOME/Applications/Another Hawking Install"` to install beside an existing copy.
+If the installer reports missing or different game files, run the installer with `--check` to verify the base game without installing. To install alongside an existing copy, add `--destination "$HOME/Applications/Another Hawking Install"`.
 
 ## Controls and vehicles
 
